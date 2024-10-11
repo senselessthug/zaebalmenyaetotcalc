@@ -10,27 +10,31 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/calculate', methods=['POST'])
+@app.route('/calculate', methods=['GET', 'POST'])
 def calculate():
-    num1 = float(request.form['num1'])
-    operation = request.form['operation']
-    num2 = float(request.form['num2'])
+    if request.method == 'POST':
+        num1 = float(request.form['num1'])
+        operation = request.form['operation']
+        num2 = float(request.form['num2'])
 
-    if operation == "+":
-        result = num1 + num2
-    elif operation == "-":
-        result = num1 - num2
-    elif operation == "*":
-        result = num1 * num2
-    elif operation == "/":
-        if num2 != 0:
-            result = num1 / num2
+        if operation == "+":
+            result = num1 + num2
+        elif operation == "-":
+            result = num1 - num2
+        elif operation == "*":
+            result = num1 * num2
+        elif operation == "/":
+            if num2 != 0:
+                result = num1 / num2
+            else:
+                result = "Деление на ноль невозможно"
         else:
-            result = "Ділення на нуль неможливе"
-    else:
-        result = "Невідома операція"
+            result = "Неизвестная операция"
 
-    return render_template('tasks.html', result=result)
+        return render_template('tasks.html', result=result)
+    else:
+        return render_template('index.html')
+
 
 
 if __name__ == '__main__':
